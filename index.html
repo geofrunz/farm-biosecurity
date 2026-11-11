@@ -1,0 +1,63 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="it"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Farm Biosecurity Designer · Esercitazioni disponibili</title>
+<style>
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial,sans-serif;--ink:#163d49;--teal:#087d84;--muted:#5d7780}*{box-sizing:border-box}
+body{margin:0;background:#f3f7f8;color:var(--ink)}header{background:#153e4b;color:#fff;padding:30px 22px 32px}
+.header-inner,main{max-width:1080px;margin:0 auto}h1{font-size:clamp(24px,3.3vw,34px);margin:0 0 9px;letter-spacing:-.025em}
+header p{margin:0;color:#cce3e6;font-size:15px;line-height:1.5;max-width:830px}main{padding:24px 18px 42px}
+.intro{background:#fff;border:1px solid #dde8ec;border-radius:14px;padding:20px 22px;margin-bottom:25px;line-height:1.6;font-size:14px}
+.intro h2{font-size:17px;margin:0 0 10px}.intro ol{margin:0;padding-left:22px}h2{font-size:19px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px;align-items:stretch}
+.card{background:#fff;border:1px solid #d9e6e9;border-radius:13px;padding:21px;display:flex;flex-direction:column;min-height:200px;box-shadow:0 2px 6px #14394508}
+.card .eyebrow{color:#147b82;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.card h3{font-size:19px;line-height:1.35;overflow-wrap:anywhere;margin:8px 0 7px}.card p{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 16px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}.action{padding:10px 12px;border-radius:8px;border:1px solid var(--teal);color:var(--teal);font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.action.primary{background:var(--teal);color:#fff}.action:hover{filter:brightness(.94)}
+.empty{background:#fff;border:1px dashed #9bb8c0;border-radius:13px;padding:25px 22px;color:#526e77}
+.note{margin-top:23px;background:#e9f2f3;border-radius:11px;padding:16px 18px;color:#496974;font-size:13px;line-height:1.6}
+footer{text-align:center;color:#70858c;font-size:12px;margin:22px 12px}
+@media print{header{background:white;color:#193d48}header p{color:#4a6570}}
+</style></head><body>
+<header><div class="header-inner"><h1>Farm Biosecurity Designer</h1>
+<p>Seleziona uno degli esercizi pubblicati dal docente. Potrai modificare la planimetria, gestire gli interventi e scaricare il progetto JSON finale.</p>
+</div></header>
+<main>
+<div class="intro"><h2>Come svolgere l'esercitazione</h2><ol>
+<li>Apri uno degli scenari elencati qui sotto. Solo le basi pubblicate dal docente sono disponibili.</li>
+<li>Aggiungi elementi, separa i flussi e gestisci il budget degli interventi.</li>
+<li>Premi <strong>Salva progetto</strong> per scaricare il tuo elaborato <strong>JSON</strong>.</li>
+<li>Se vuoi riprendere il lavoro, seleziona <strong>Apri JSON</strong> nel simulatore e scegli il file salvato.</li>
+<li>Consegna il JSON al docente attraverso Moodle, Teams o il canale indicato.</li>
+</ol></div>
+<h2>Scenari disponibili</h2>
+<div class="grid" id="elenco-scenari">
+{% assign elenco_file = site.static_files | sort: "path" %}
+{% for file in elenco_file %}
+{% if file.path contains '/scenari/' and file.extname == '.json' %}
+<article class="card">
+  <span class="eyebrow">Esercitazione</span>
+  <h3>{{ file.basename | replace: '_', ' ' | replace: '-', ' ' | escape }}</h3>
+  <p>Base di partenza pubblicata dal docente. Nessun intervento aggiuntivo è già conteggiato nel budget.</p>
+  <div class="actions">
+    <a class="action primary" href="{{ '/simulatore.html' | relative_url }}?file={{ file.name | url_encode }}">Apri il simulatore</a>
+    <a class="action" href="{{ file.path | relative_url }}" download>Scarica JSON iniziale</a>
+  </div>
+</article>
+{% endif %}
+{% endfor %}
+</div>
+<div class="empty" id="elenco-vuoto" hidden><strong>Nessuna esercitazione pubblicata.</strong><p>Il docente deve aggiungere almeno un file <code>.json</code> nella cartella <code>scenari</code> del repository GitHub.</p></div>
+<div class="note"><strong>Promemoria:</strong> il progetto rimane nel tuo browser finché non lo scarichi. Questa piattaforma non salva automaticamente il lavoro online e non invia i file al docente. I costi e i controlli sono indicativi a scopo didattico.</div>
+</main>
+<footer>Farm Biosecurity Designer · Uso didattico</footer>
+<script>
+if(document.querySelectorAll('#elenco-scenari .card').length === 0){
+  document.getElementById('elenco-vuoto').hidden=false;
+}
+</script>
+</body></html>
